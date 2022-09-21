@@ -154,8 +154,8 @@ const userEdit=asyncHandler(async(req,res)=>{
     let id=req.params.id
     const editUser=await User.updateOne({_id:id},{
         $set:{
-            name,
-            email
+            name:name,
+            email:email,
         }
     })
     res.json(editUser)

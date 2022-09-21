@@ -9,7 +9,7 @@ function Edituser() {
     const [state,setState]=useState({
         email:'',
         name:''
-    })
+})
     let navigate=useNavigate()
     let {userId}=useParams()
     const editData = async (userId)=>{
@@ -25,19 +25,20 @@ function Edituser() {
         editData(userId);
     }, [])
 
+     const handleChange=(e)=>{
+        setState({...state,[e.target.name]:e.target.value})
+    }
+
     let submitHandler=async(e)=>{
         e.preventDefault();
 
          console.log('1111');
-         let name=state.name;
-         let email=state.email
-         let data={name,email}
-         console.log(data);
-        console.log(state.name);
-        const updateUser=(userId)=>{
-            axios.put(`/api/users/postedit/${userId}`,data)
-            console.log('aaaaaaa');
+        console.log(state._id);
+        const updateUser=async()=>{
+            await axios.put(`/api/users/postedit/${state._id}`,(state))
+          
         }
+       updateUser()
 
          if(updateUser){
             navigate('/adminHome')
@@ -54,7 +55,7 @@ function Edituser() {
           <Card.Body>
            
               <Card.Title className='text-center'>Edit User</Card.Title>
-              <pre>{JSON.stringify(state)}</pre>
+              {/* <pre>{JSON.stringify(state)}</pre> */}
                 
               <Form onSubmit={submitHandler}>
               
@@ -62,16 +63,18 @@ function Edituser() {
                     
                       <Form.Label></Form.Label>
                       <Form.Control type="text"
+                      name="name"
                           value={state.name}
-                          onChange={(e) => setState(e.target.value)}
+                          onChange={handleChange}
                           placeholder="Enter Name" />
 
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formBasicEmail">
                       <Form.Label>Email address</Form.Label>
                       <Form.Control type="email"
+                      name="email"
                           value={state.email}
-                          onChange={(e) => setState(e.target.value)}
+                          onChange={handleChange}
                           placeholder="Enter email" />
                               
                   </Form.Group>
